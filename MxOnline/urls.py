@@ -26,4 +26,5 @@ urlpatterns = [
     url(r'^xadmin/', xadmin.site.urls),
     url(r'^$', TemplateView.as_view(template_name='index.html'), name='index'),
     url(r'^users/', include('users.urls')),
+    url(r'^captcha/', include('captcha.urls')),
 ] +  static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -5,7 +5,7 @@ from django.db.models import Q
 from django.views.generic import View
 
 from .models import UserProfile
-from .forms import LoginForm
+from .forms import LoginForm, RegisterForm
 
 # Create your views here.
 
@@ -41,4 +41,9 @@ class LoginView(View):
 
 class RegisterView(View):
     def get(self, request):
-        return render(request, 'register.html')
+        register_form = RegisterForm()
+        return render(request, 'register.html', {'register_form': register_form})
+    def post(self, request):
+        register_form = RegisterForm(request.POST)
+        if register_form.is_valid():
+            email = request.POST.get('email', '')
