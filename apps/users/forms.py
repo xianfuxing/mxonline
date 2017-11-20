@@ -18,10 +18,11 @@ class RegisterForm(forms.Form):
     captcha = CaptchaField()
 
 
-class RegsiterForm2(forms.ModelForm):
-    password = forms.CharField(required=True, widget=forms.PasswordInput(attrs={'placeholder': '请输入6-20位非中文字符密码'}))
-    captcha = CaptchaField()
-
-    class Meta:
-        model = UserProfile
-        fields = ('email', 'password')
+# class RegsiterForm2(forms.ModelForm):
+#     email = forms.EmailField(required=True)
+#     password = forms.CharField(required=True, widget=forms.PasswordInput(attrs={'placeholder': '请输入6-20位非中文字符密码'}))
+#     captcha = CaptchaField()
+#
+#     class Meta:
+#         model = UserProfile
+#         fields = ('email', 'password')

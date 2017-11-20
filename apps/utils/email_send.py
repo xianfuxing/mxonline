@@ -2,6 +2,7 @@ __author__ = 'xianfuxing'
 __date__ = '2017/11/19 21:41'
 
 import random
+import itsdangerous
 from django.core.mail import send_mail
 
 from users.models import EmailVerifyRecord
@@ -31,3 +32,4 @@ def random_str(length=16):
     for i in range(length):
         s += chars[random.randint(0, index)]
     return s
+
