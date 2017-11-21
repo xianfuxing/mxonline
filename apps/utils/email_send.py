@@ -2,15 +2,17 @@ __author__ = 'xianfuxing'
 __date__ = '2017/11/19 21:41'
 
 import random
-import itsdangerous
 from django.core.mail import send_mail
+from django.conf import settings
 
 from users.models import EmailVerifyRecord
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 
 
 def send_register_email(email, send_type='register'):
     email_record = EmailVerifyRecord()
     code = random_str(48)
+    # code = random_exp_str(48)
     email_record.code = code
     email_record.email = email
     email_record.send_type = send_type
@@ -33,3 +35,8 @@ def random_str(length=16):
         s += chars[random.randint(0, index)]
     return s
 
+
+def random_exp_str(length=16):
+    secret_key = settings.SECRET_KEY
+    s = Serializer(secret_key, expires_in=300)
+    return s
