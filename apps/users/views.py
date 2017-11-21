@@ -54,7 +54,7 @@ class RegisterView(View):
         if register_form.is_valid():
             username = request.POST.get('email', '')
             password = request.POST.get('password', '')
-            if UserProfile.objects.get(username=username):
+            if UserProfile.objects.get(email=username):
                 return render(request, 'register.html', {'register_form': register_form, 'msg': '该用户已存在'})
             user_profile = UserProfile()
             # user_profile = register_form2.save()
@@ -75,7 +75,10 @@ class ActivateUserView(View):
     def get(self, request, activate_code):
         record = EmailVerifyRecord.objects.get(code=activate_code)
         if record:
+            if record.confirmed:
+                return render(request, 'login.html', {'msg': '该用户已激活，请登录。'})
             email = record.email
+            record.confirmed = True
             user = UserProfile.objects.get(email=email)
             user.is_active = True
             user.save()
