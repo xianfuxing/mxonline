@@ -6,7 +6,7 @@ from django.contrib.auth.hashers import make_password
 from django.views.generic import View
 
 from .models import UserProfile, EmailVerifyRecord
-from .forms import LoginForm, RegisterForm
+from .forms import LoginForm, RegisterForm, ForgetForm
 
 from utils.email_send import send_register_email
 # Create your views here.
@@ -87,3 +87,23 @@ class ActivateUserView(View):
 
             msg = '激活成功'
         return render(request, 'login.html', {'msg': msg})
+
+
+class ForgetPwdView(View):
+    def get(self, request):
+        forget_form = ForgetForm()
+        return render(request, 'forgetpwd.html', {'forget_form': forget_form})
+
+    def post(self, request):
+        forget_form = ForgetForm(request.POST)
+        if forget_form.is_valid():
+            cd = forget_form.cleaned_data
+            email = cd.get('email')
+            send_register_email(email, 'forget')
+            context = {
+                'msg': '邮件已发送'
+            }
+
+            return render(request, 'login.html', context=context)
+        else:
+            return render(request, 'forgetpwd.html', {'forget_form': forget_form})

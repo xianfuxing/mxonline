@@ -8,15 +8,19 @@ from .models import UserProfile
 
 
 class LoginForm(forms.Form):
-    username = forms.CharField(required=True)
-    password = forms.CharField(required=True, min_length=5)
+    username = forms.CharField(required=True, error_messages={'required': '请输入用户名'})
+    password = forms.CharField(required=True, min_length=5, error_messages={'required': '请输入密码'})
 
 
 class RegisterForm(forms.Form):
-    email = forms.EmailField(required=True)
-    password = forms.CharField(required=True, min_length=5)
-    captcha = CaptchaField()
+    email = forms.EmailField(required=True, error_messages={'required': '请输入邮箱地址'})
+    password = forms.CharField(required=True, min_length=5, error_messages={'required': '请输入密码'})
+    captcha = CaptchaField(error_messages={'required': '请输入验证码'})
 
+
+class ForgetForm(forms.Form):
+    email = forms.EmailField(required=True, error_messages={'required': '请输入邮箱地址'})
+    captcha = CaptchaField(error_messages={'required': '请输入验证码'})
 
 # class RegsiterForm2(forms.ModelForm):
 #     email = forms.EmailField(required=True)
