@@ -9,6 +9,7 @@ from .models import UserProfile, EmailVerifyRecord
 from .forms import LoginForm, RegisterForm, ForgetForm
 
 from utils.email_send import send_register_email
+from utils.decorator import im_send_mail
 # Create your views here.
 
 
@@ -99,7 +100,8 @@ class ForgetPwdView(View):
         if forget_form.is_valid():
             cd = forget_form.cleaned_data
             email = cd.get('email')
-            send_register_email(email, 'forget')
+            # send_register_email(email, 'forget')
+            im_send_mail(email)
             context = {
                 'msg': '邮件已发送'
             }
