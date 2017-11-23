@@ -22,6 +22,12 @@ class ForgetForm(forms.Form):
     email = forms.EmailField(required=True, error_messages={'required': '请输入邮箱地址'})
     captcha = CaptchaField(error_messages={'required': '请输入验证码'})
 
+
+class ResetPwdForm(forms.Form):
+    password1 = forms.CharField(required=True, min_length=5, error_messages={'required': '请输入密码'})
+    password2 = forms.CharField(required=True, min_length=5, error_messages={'required': '请输入确认密码'})
+    captcha = CaptchaField(error_messages={'required': '请输入验证码'})
+
 # class RegsiterForm2(forms.ModelForm):
 #     email = forms.EmailField(required=True)
 #     password = forms.CharField(required=True, widget=forms.PasswordInput(attrs={'placeholder': '请输入6-20位非中文字符密码'}))
