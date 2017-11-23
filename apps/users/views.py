@@ -74,7 +74,7 @@ class RegisterView(View):
 class ActivateUserView(View):
     def get(self, request, activate_code):
         msg = '激活无效'
-        record = EmailVerifyRecord.objects.filter(code=activate_code)
+        record = EmailVerifyRecord.objects.filter(code=activate_code).first()
         if record:
             if record.confirmed:
                 return render(request, 'users/login.html', {'msg': '该用户已激活，请登录。'})
@@ -104,18 +104,18 @@ class ForgetPwdView(View):
                 msg = '邮件已发送'
             msg = '该用户不存在'
 
-            return render(request, 'users/register.html', {'msg': msg})
+            return render(request, 'users/forgetpwd.html', {'forget_form': forget_form, 'msg': msg})
         else:
             return render(request, 'users/forgetpwd.html', {'forget_form': forget_form})
 
 
 class ResetView(View):
     def get(self, request, activate_code):
-        record = EmailVerifyRecord.objects.get(code=activate_code)
+        record = EmailVerifyRecord.objects.filter(code=activate_code).first()
         if record:
             email = record.email
             return render(request, 'users/password_reset.html', {'email': email})
-        return render(request, 'users/login.html', {'msg': ''})
+        return render(request, 'users/forgetpwd.html', {'msg': '重置地址无效'})
 
 
 class ResetPwdView(View):
@@ -127,7 +127,7 @@ class ResetPwdView(View):
             email = request.POST.get('email', '')
             if pwd1 != pwd2:
                 return render(request, 'users/password_reset.html', {'email': email, 'msg': '密码不一致'})
-            user= UserProfile.objects.filter(email=email)
+            user= UserProfile.objects.get(email=email)
             user.password = make_password(pwd2)
             user.save()
             return render(request, 'users/login.html', {'msg': '密码重置成功'})

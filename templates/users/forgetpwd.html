@@ -41,7 +41,7 @@
             <input type="hidden" name="mobile" id="jsInpResetMobil" />
             <input id="jsSetNewPwdBtn" type="button" value="提交" />
         </div>
-        <input type='hidden' name='csrfmiddlewaretoken' value='mymQDzHWl2REXIfPMg2mJaLqDfaS1sD5' />
+        {% csrf_token %}
     </form>
 </div>
 <div class="bg" id="dialogBg"></div>
@@ -51,7 +51,7 @@
             <p class="fl hd-tips">慕学网，在线学习平台！</p>
             <ul class="fr hd-bar">
                 <li>服务电话：<span>33333333</span></li>
-                <li><a href="login.html">[登录]</a></li>
+                <li><a href="{% url 'login' %}">[登录]</a></li>
                 <li class="active"><a href="/forgetpwd/">[忘记密码]</a></li>
             </ul>
         </div>
@@ -93,6 +93,9 @@
                     </div>
                     <div class="error btns" id="jsForgetTips">
                         {% for error in forget_form.captcha.errors %}{{ error }} {% endfor %}
+                    </div>
+                     <div class="error btns" id="jsForgetTips">
+                        {{ msg }}
                     </div>
                     <input type="hidden" name="sms_type" value="1">
                     <input class="btn btn-green" id="jsFindPwdBtn" type="submit" value="提交" />
