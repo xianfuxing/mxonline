@@ -4,10 +4,11 @@ __date__ = '2017/11/17 21:47'
 from django.conf.urls import url
 from django.contrib.auth.views import logout
 from users.views import LoginView, RegisterView, ActivateUserView, ForgetPwdView, ResetView, ResetPwdView
-from django.contrib.auth.views import LogoutView
+from django.contrib.auth.views import LogoutView, LoginView
 
 
 urlpatterns = [
+    # url(r'^login/$', LoginView.as_view(template_name='users/login.html', redirect_authenticated_user=True), name='login'),
     url(r'^login/$', LoginView.as_view(), name='login'),
     # url(r'^logout/$', logout, {'next_page': '/users/login/'}, name='logout'),
     url(r'^logout/$', LogoutView.as_view(template_name='users/logout.html'), name='logout'),
