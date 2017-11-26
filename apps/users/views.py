@@ -8,6 +8,7 @@ from django.views.generic import View
 from django.conf import settings
 from .models import UserProfile, EmailVerifyRecord
 from .forms import LoginForm, RegisterForm, ForgetForm, ResetPwdForm
+from django.contrib.auth.forms import AuthenticationForm
 
 from utils.email_send import send_register_email
 # Create your views here.
@@ -41,7 +42,7 @@ class LoginView(View):
         return render(request, 'users/login.html')
 
     def post(self, request):
-        login_form = LoginForm(request.POST)
+        login_form = LoginForm(data=request.POST)
         if login_form.is_valid():
             username = request.POST.get('username', '')
             password = request.POST.get('password', '')
@@ -49,7 +50,7 @@ class LoginView(View):
             if user is not None:
                 if user.is_active:
                     login(request, user)
-                    return redirect('index')
+                    return HttpResponseRedirect(self.get_success_url())
                 else:
                     return render(request, 'users/login.html', {'msg': '用户未激活'})
             else:

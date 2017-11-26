@@ -4,7 +4,7 @@ __date__ = '2017/11/17 21:47'
 from django.conf.urls import url
 from django.contrib.auth.views import logout
 from users.views import LoginView, RegisterView, ActivateUserView, ForgetPwdView, ResetView, ResetPwdView
-from django.contrib.auth.views import LogoutView, LoginView
+from django.contrib.auth.views import LogoutView
 
 
 urlpatterns = [
