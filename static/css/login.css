@@ -226,7 +226,7 @@ a:hover{
     background: #fb8344;
     color:#fff !important;
     text-align: center;
-    line-height: 40px !important;
+    line-height: 200% !important;
     margin:10px 0;
 }
 .form-group{

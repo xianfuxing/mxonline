@@ -93,7 +93,7 @@ class RegisterView(View):
 
             send_register_email(username, 'register')
 
-            return render(request, 'users/login.html')
+            return render(request, 'users/login.html', {'msg': '注册邮件已发送'})
         else:
             return render(request, 'users/register.html', {'register_form': register_form})
 
