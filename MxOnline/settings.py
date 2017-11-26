@@ -149,6 +149,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # Email Setting
 EMAIL_HOST = 'smtp.126.com'
 EMAIL_HOST_USER = 'xianfuxing@126.com'
-EMAIL_HOST_PASSWORD = 'XINGTONG3409493*'
+EMAIL_HOST_PASSWORD = ''
 EMAIL_PORT = 465
 EMAIL_USE_SSL = True

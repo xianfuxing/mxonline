@@ -6,10 +6,25 @@ from django.contrib.auth import authenticate, get_user_model
 from django.utils.translation import ugettext, ugettext_lazy as _
 from captcha.fields import CaptchaField
 from django.utils.text import capfirst
+from django.core.validators import validate_email
 
 from .models import UserProfile
 UserModel = get_user_model()
 
+class MultiEmailField(forms.Field):
+    def to_python(self, value):
+        """Normalize data to a list of strings."""
+        # Return an empty list if no input was given.
+        if not value:
+            return []
+        return value.split(',')
+
+    def validate(self, value):
+        """Check if value consists only of valid emails."""
+        # Use the parent's handling of required fields, etc.
+        super(MultiEmailField, self).validate(value)
+        for email in value:
+            validate_email(email)
 
 class LoginForm(forms.Form):
     username = forms.CharField(required=True, error_messages={'required': '请输入用户名'})
