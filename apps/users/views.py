@@ -1,10 +1,10 @@
 from django.shortcuts import render, resolve_url, redirect, HttpResponseRedirect
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login as auth_login
 from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.contrib.auth.backends import ModelBackend
 from django.db.models import Q
 from django.contrib.auth.hashers import make_password
-from django.views.generic import View
+from django.views.generic import View, FormView
 from django.conf import settings
 from .models import UserProfile, EmailVerifyRecord
 from .forms import LoginForm, RegisterForm, ForgetForm, ResetPwdForm
@@ -24,7 +24,8 @@ class CustomBackend(ModelBackend):
             return None
 
 
-class LoginView(View):
+class LoginView(FormView):
+    form_class = LoginForm
     redirect_field_name = REDIRECT_FIELD_NAME
 
     def dispatch(self, request, *args, **kwargs):
@@ -41,22 +42,39 @@ class LoginView(View):
     def get(self, request):
         return render(request, 'users/login.html')
 
-    def post(self, request):
-        login_form = LoginForm(data=request.POST)
-        if login_form.is_valid():
-            username = request.POST.get('username', '')
-            password = request.POST.get('password', '')
-            user = authenticate(username=username, password=password)
-            if user is not None:
-                if user.is_active:
-                    login(request, user)
-                    return HttpResponseRedirect(self.get_success_url())
-                else:
-                    return render(request, 'users/login.html', {'msg': '用户未激活'})
-            else:
-                return render(request, 'users/login.html', {'msg': '用户名或密码错误'})
-        else:
-            return render(request, 'users/login.html', {'login_form': login_form})
+    def get_form_class(self):
+        return self.form_class
+
+    def get_form_kwargs(self):
+        kwargs = super(LoginView, self).get_form_kwargs()
+        kwargs['request'] = self.request
+        return kwargs
+
+    def form_valid(self, form):
+        auth_login(self.request, form.get_user())
+        return HttpResponseRedirect(self.get_success_url())
+
+    # def get_context_data(self, **kwargs):
+    #     context = super(LoginView, self).get_context_data(**kwargs)
+    #     context['login_form'] = LoginForm(data=self.request.POST)
+    #     return context
+
+    # def post(self, request):
+    #     login_form = LoginForm(data=request.POST)
+    #     if login_form.is_valid():
+    #         username = request.POST.get('username', '')
+    #         password = request.POST.get('password', '')
+    #         user = authenticate(username=username, password=password)
+    #         if user is not None:
+    #             if user.is_active:
+    #                 login(request, user)
+    #                 return HttpResponseRedirect(self.get_success_url())
+    #             else:
+    #                 return render(request, 'users/login.html', {'msg': '用户未激活'})
+    #         else:
+    #             return render(request, 'users/login.html', {'msg': '用户名或密码错误'})
+    #     else:
+    #         return render(request, 'users/login.html', {'login_form': login_form})
 
     def get_success_url(self):
         url = self.get_redirect_url()

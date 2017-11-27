@@ -76,6 +76,8 @@ class LoginForm(forms.Form):
                 code='inactive',
             )
 
+    def get_user(self):
+        return self.user_cache
 
 
 class RegisterForm(forms.Form):
