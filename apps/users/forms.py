@@ -11,6 +11,7 @@ from django.core.validators import validate_email
 from .models import UserProfile
 UserModel = get_user_model()
 
+
 class MultiEmailField(forms.Field):
     def to_python(self, value):
         """Normalize data to a list of strings."""
