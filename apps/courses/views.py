@@ -1,9 +1,1 @@
 from django.shortcuts import render
-from django.views.generic import View
-
-# Create your views here.
-
-
-class OrgListView(View):
-    def get(self, request):
-        return render(request, 'courses/org_list.html')
