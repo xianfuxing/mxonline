@@ -119,7 +119,7 @@
 	</div>
 	<div class="right companyright">
 			<div class="head">我要学习</div>
-			<form class="rightform" id="jsStayForm">
+			<form class="rightform" id="jsStayForm" action="{% url 'org:add_ask' %}" method="post">
 				<div>
                     <img src="{% static 'images/rightform1.png' %}"/>
                     <input type="text" name="name" id="companyName" placeholder="名字" maxlength="25" />
@@ -134,7 +134,7 @@
                 </div>
                 <p class="error company-tips" id="jsCompanyTips"></p>
 				<input class="btn" type="text" id="jsStayBtn" value="立即咨询 >" />
-            <input type='hidden' name='csrfmiddlewaretoken' value='5I2SlleZJOMUX9QbwYLUIAOshdrdpRcy' />
+                {% csrf_token %}
             </form>
 		</div>
 
@@ -153,3 +153,28 @@
         </div>
 </section>
 {% endblock content %}
+
+{% block custom_script %}
+    <script>
+        $(function(){
+        $('#jsStayBtn').on('click', function(){
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url:"/org/add-ask/",
+                data:$('#jsStayForm').serialize(),
+                async: true,
+                success: function(data) {
+                    if(data.status == 'success'){
+                        $('#jsStayForm')[0].reset();
+                        alert("提交成功")
+                        $('#jsCompanyTips').html('');
+                    }else if(data.status == 'failed'){
+                        $('#jsCompanyTips').html(data.msg)
+                    }
+                },
+            });
+        });
+    })
+    </script>
+{% endblock custom_script %}

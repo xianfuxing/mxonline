@@ -1,4 +1,7 @@
+import json
+
 from django.shortcuts import render
+from django.http import HttpResponse
 from django.views.generic import View
 
 from .models import CourseOrg, CityDict
@@ -65,3 +68,11 @@ class UserAskView(View):
         user_ask_form = UserAskForm(data=request.POST)
         if user_ask_form.is_valid():
             user_ask = user_ask_form.save()
+            data = {'status': 'success'}
+        else:
+            m_error = user_ask_form.errors.get('mobile', '')
+            error = '填写错误'
+            if m_error:
+                error = '请正确填写手机号'
+            data = {'status': 'failed', 'msg': error}
+        return HttpResponse(json.dumps(data), content_type='application/json')
