@@ -70,9 +70,17 @@ class UserAskView(View):
             user_ask = user_ask_form.save()
             data = {'status': 'success'}
         else:
-            m_error = user_ask_form.errors.get('mobile', '')
             error = '填写错误'
-            if m_error:
-                error = '请正确填写手机号'
+            errors = json.loads(user_ask_form.errors.as_json())
+            for (kw, error) in errors.items():
+                if error[0]['code'] == 'required':
+                    error = '表格不完整'
+                elif error[0]['code'] == 'invalid_mobile':
+                    error = '请正确填写手机号'
+                    break
+            # m_error = user_ask_form.errors.get('mobile', '')
+            # error = '填写错误'
+            # if m_error:
+            #     error = '请正确填写手机号'
             data = {'status': 'failed', 'msg': error}
         return HttpResponse(json.dumps(data), content_type='application/json')
