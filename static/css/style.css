@@ -5041,11 +5041,20 @@ footer .footer .line {
 }
 
 .company-tips {
-    float: left;
+    /*float: left;*/
     width: 100%;
+    line-height: 25px;
     text-align: center;
+    background-color: #e6342d;
+}
+
+.company-tips span {
+    display: inline-block;
+    line-height: 1em;
+    font-size: 1em;
     color: #fff;
-    background-color: #ff261e;
+    vertical-align: middle;
+
 }
 
 .companyright .rightform div.errorput {

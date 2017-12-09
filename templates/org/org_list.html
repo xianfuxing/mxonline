@@ -132,7 +132,9 @@
                     <img src="{% static 'images/rightform3.png' %}"/>
                     <input type="text" name="course_name" id="companyAddress" placeholder="课程名" maxlength="50" />
                 </div>
-                <p class="error company-tips" id="jsCompanyTips"></p>
+                <p class="error" id="jsCompanyTips">
+                    <span></span>
+                </p>
 				<input class="btn" type="text" id="jsStayBtn" value="立即咨询 >" />
                 {% csrf_token %}
             </form>
@@ -170,7 +172,8 @@
                         alert("提交成功")
                         $('#jsCompanyTips').html('');
                     }else if(data.status == 'failed'){
-                        $('#jsCompanyTips').html(data.msg)
+                        $('#jsCompanyTips').addClass('company-tips');
+                        $('#jsCompanyTips span').html(data.msg);
                     }
                 },
             });
