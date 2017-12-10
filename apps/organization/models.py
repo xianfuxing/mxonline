@@ -38,6 +38,9 @@ class CourseOrg(models.Model):
         verbose_name = '课程机构'
         verbose_name_plural = verbose_name
 
+    def __str__(self):
+        return self.name
+
 
 class Teacher(models.Model):
     org = models.ForeignKey(CourseOrg, verbose_name='所属机构')
