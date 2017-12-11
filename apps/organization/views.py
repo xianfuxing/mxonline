@@ -5,6 +5,7 @@ from django.http import HttpResponse
 from django.views.generic import View
 
 from .models import CourseOrg, CityDict
+from courses.models import Course
 from .forms import UserAskForm
 
 from pure_pagination import Paginator, EmptyPage, PageNotAnInteger
@@ -84,3 +85,17 @@ class UserAskView(View):
             #     error = '请正确填写手机号'
             data = {'status': 'failed', 'msg': error}
         return HttpResponse(json.dumps(data), content_type='application/json')
+
+
+class OrgHomeView(View):
+    def get(self, request, org_id):
+        course_org = CourseOrg.objects.get(id=int(org_id))
+        courses = course_org.course_set.all()
+        teachers = course_org.teacher_set.all()[:3]
+
+        context = {
+            'course_org': course_org,
+            'courses': courses,
+            'teachers': teachers
+        }
+        return render(request, 'org/org-detail-homepage.html', context=context)
