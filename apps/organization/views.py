@@ -90,8 +90,8 @@ class UserAskView(View):
 class OrgHomeView(View):
     def get(self, request, org_id):
         course_org = CourseOrg.objects.get(id=int(org_id))
-        courses = course_org.course_set.all()
-        teachers = course_org.teacher_set.all()[:3]
+        courses = course_org.course_set.all()[:3]
+        teachers = course_org.teacher_set.all()
 
         context = {
             'course_org': course_org,
@@ -99,3 +99,15 @@ class OrgHomeView(View):
             'teachers': teachers
         }
         return render(request, 'org/org-detail-homepage.html', context=context)
+
+
+class OrgCourseView(View):
+    def get(self, request, org_id):
+        course_org = CourseOrg.objects.get(id=int(org_id))
+        courses = course_org.course_set.all()
+
+        context = {
+            'course_org': course_org,
+            'courses': courses,
+        }
+        return render(request, 'org/org-detail-course.html', context=context)

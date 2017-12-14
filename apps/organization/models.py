@@ -50,6 +50,7 @@ class Teacher(models.Model):
     work_position = models.CharField(max_length=50, verbose_name='工作职位')
     points = models.CharField(max_length=50, verbose_name='教学特点')
     click_num = models.IntegerField(default=0, verbose_name='点击数')
+    image = models.ImageField(default='', upload_to='teacher/%Y/%m', verbose_name='logo', max_length=100)
     fav_num = models.IntegerField(default=0, verbose_name='收藏数')
     add_time = models.DateTimeField(auto_now_add=True)
 
