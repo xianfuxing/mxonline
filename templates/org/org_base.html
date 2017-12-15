@@ -72,10 +72,10 @@
 
 <section>
 	<div class="wp list personal_list comp">
-		<div class="left">{{ request.path }}
+		<div class="left">
 			<ul>
-				<li class="active2"><a href="{% url 'org:home' course_org.id %}">机构首页</a></li>
-                <li class=""><a href="{% url 'org:course' course_org.id %}">机构课程</a></li>
+				<li class="{% is_active_reverse request course_org.id 'org:home' %}"><a href="{% url 'org:home' course_org.id %}">机构首页</a></li>
+                <li class="{% is_active_reverse request course_org.id 'org:course' %}"><a href="{% url 'org:course' course_org.id %}">机构课程</a></li>
                 <li class=""><a href="org-detail-desc.html">机构介绍</a></li>
                 <li class=""><a href="org-detail-teachers.html">机构讲师</a></li>
 			</ul>
