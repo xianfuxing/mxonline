@@ -5,6 +5,8 @@ __date__ = '2017/12/14 23:48'
 from django import template
 from django.core.urlresolvers import reverse
 
+from operation.models import UserFavorite
+
 
 register = template.Library()
 
@@ -25,3 +27,12 @@ def is_active_reverse(request, args, *urlnames):
         if url in request.path:
             return 'active2'
         return ''
+
+
+@register.simple_tag()
+def is_fav(request, org_id):
+    fav = UserFavorite.objects.filter(user=request.user, fav_id=org_id, fav_type=2)
+    if fav:
+        return '已收藏'
+    else:
+        return '收藏'

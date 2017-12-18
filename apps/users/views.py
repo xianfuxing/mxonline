@@ -29,7 +29,7 @@ class LoginView(FormView):
     redirect_field_name = REDIRECT_FIELD_NAME
 
     def dispatch(self, request, *args, **kwargs):
-        if request.user.is_authenticated:
+        if request.user.is_authenticated():
             redirect_to = self.get_success_url()
             if redirect_to == self.request.path:
                 raise ValueError(
@@ -53,28 +53,6 @@ class LoginView(FormView):
     def form_valid(self, form):
         auth_login(self.request, form.get_user())
         return HttpResponseRedirect(self.get_success_url())
-
-    # def get_context_data(self, **kwargs):
-    #     context = super(LoginView, self).get_context_data(**kwargs)
-    #     context['login_form'] = LoginForm(data=self.request.POST)
-    #     return context
-
-    # def post(self, request):
-    #     login_form = LoginForm(data=request.POST)
-    #     if login_form.is_valid():
-    #         username = request.POST.get('username', '')
-    #         password = request.POST.get('password', '')
-    #         user = authenticate(username=username, password=password)
-    #         if user is not None:
-    #             if user.is_active:
-    #                 login(request, user)
-    #                 return HttpResponseRedirect(self.get_success_url())
-    #             else:
-    #                 return render(request, 'users/login.html', {'msg': '用户未激活'})
-    #         else:
-    #             return render(request, 'users/login.html', {'msg': '用户名或密码错误'})
-    #     else:
-    #         return render(request, 'users/login.html', {'login_form': login_form})
 
     def get_success_url(self):
         url = self.get_redirect_url()
