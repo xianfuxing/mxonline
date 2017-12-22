@@ -71,7 +71,7 @@
                     </div>
                     <div class="btn fr collectionbtn  notlogin
                          "data-favid="22" data-fav-type="1">
-                         收藏
+                         {% is_fav request course_org.id %}
                     </div>
 
                 </div>
@@ -139,7 +139,8 @@ function add_fav(current_elem, fav_id, fav_type){
         },
         success: function(data) {
             if(data.status == 'fail') {
-                if(data.msg == '用户未登录'){
+                if(data.msg == '用户未登录') {
+                    alert('请登录后，再收藏');
                     window.location.href="{% url 'login' %}";
                 }else{
                     alert(data.msg)
