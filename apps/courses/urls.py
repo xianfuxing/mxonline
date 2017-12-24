@@ -6,5 +6,5 @@ from .views import CourseListView
 
 
 urlpatterns = [
-    url(r'^list/$', CourseListView.as_view(), name='course-list')
+    url(r'^list/$', CourseListView.as_view(), name='course_list')
 ]
