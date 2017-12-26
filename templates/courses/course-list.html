@@ -29,7 +29,7 @@
                 <div id="inWindow">
                     <div class="tab_cont " id="content">
 					<div class="group_list">
-                    {% for course in courses %}
+                    {% for course in courses.object_list %}
                         <div class="box">
                                 <a href="course-detail.html">
                                     <img width="280" height="350" class="scrollLoading" src="{{ MEDIA_URL }}{{ course.image }}"/>
@@ -53,9 +53,23 @@
 					</div>
                     <div class="pageturn">
                         <ul class="pagelist">
-                            <li class="active"><a href="?page=1">1</a></li>
-                            <li><a href="?page=2" class="page">2</a></li>
-                            <li class="long"><a href="?page=2">下一页</a></li>
+                            {% if courses.has_previous %}
+                                <li class="long"><a href="?{{ courses.previous_page_number.querystring }}">上一页</a></li>
+                            {% endif %}
+                            {% for page in courses.pages %}
+                                {% if page %}
+                                    {% ifequal page courses.number %}
+                                        <li class="active"><a href="?{{ page.querystring }}">{{ page }}</a></li>
+                                    {% else %}
+                                        <li><a href="?{{ page.querystring }}" class="page">{{ page }}</a></li>
+                                    {% endifequal %}
+                                {% else %}
+                                    <li class="none"><a href="">...</a></li>
+                                {% endif %}
+                            {% endfor %}
+                            {% if courses.has_next %}
+                                 <li class="long"><a href="?{{ courses.previous_page_number.querystring }}">下一页</a></li>
+                             {% endif %}
                         </ul>
                     </div>
 				</div>
