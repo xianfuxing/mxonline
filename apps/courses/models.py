@@ -31,6 +31,9 @@ class Course(models.Model):
     def __str__(self):
         return self.name
 
+    def get_lession_nums(self):
+        return self.lesson_set.all().count()
+
 
 class Lesson(models.Model):
     course = models.ForeignKey(Course, verbose_name='课程')

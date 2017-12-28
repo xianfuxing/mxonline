@@ -33,3 +33,13 @@ class CourseListView(View):
             'hot_courses': hot_courses,
         }
         return render(request, 'courses/course-list.html', context=context)
+
+
+class CourseDeailView(View):
+    def get(self, request, course_id):
+        course = Course.objects.get(id=course_id)
+
+        context = {
+            'course': course
+        }
+        return render(request, 'courses/course-detail.html', context=context)
