@@ -36,11 +36,11 @@
 						<ul class="parameter">
 							<li><span class="pram word3">时&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;长：</span><span>{{ course.learn_times }}</span></li>
                             <li><span class="pram word3">章&nbsp;节&nbsp;数：</span><span>{{ course.get_lession_nums }}</span></li>
-                            <li><span class="pram word3">课程类别：</span><span title="">web开发/后端开发</span></li>
+                            <li><span class="pram word3">课程类别：</span><span title="">{{ course.category }}</span></li>
 							<li class="piclist"><span class="pram word4">学习用户：</span>
-
-                                <span class="pic"><img width="40" height="40" src="{{ MEDIA_URL }}image/2016/12/default_big_14.png"/></span>
-
+                            {% for user_course in course.get_learn_users %}
+                                <span class="pic"><img width="40" height="40" src="{{ MEDIA_URL }}{{ user_course.user.image }}"/></span>
+                            {% endfor %}
 							</li>
 						</ul>
 						<div class="btns">
@@ -86,10 +86,10 @@
 					<div class="clear">
 						<ul>
                             <li>
-                                <span>课 &nbsp;程&nbsp; 数：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   {{ course.lesson_set.count }}</span>
+                                <span>课 &nbsp;程&nbsp; 数：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   {{ course.course_org.course_num }}</span>
                             </li>
                             <li>
-                                <span>教 &nbsp;师&nbsp; 数：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   </span>
+                                <span>教 &nbsp;师&nbsp; 数：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   {{ course.get_teacher_nums }}</span>
                             </li>
 							<li>所在地区：&nbsp;&nbsp;{{ course.course_org.city }}</li>
 							<li>认&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;证&nbsp;:
@@ -113,6 +113,7 @@
 					</ul>
 				</div>
 				<div class="tab_cont tab_cont1">
+                    <img src="{{ MEDIA_URL }}{{ course.image }}">
                     <p>{{ course.detail }}</p>
 				</div>
 				<div class="tab_cont tab_cont2" >
@@ -125,23 +126,21 @@
 			</div>
 			<div class="right layout">
 				<div class="head">相关课程推荐</div>
+                {% for course in related_course %}
                 <div class="group_recommend">
-
-                        <dl>
-                            <dt>
-                                <a target="_blank" href="">
-                                    <img width="240" height="220" class="scrollLoading" src="../media/courses/2016/11/540e57300001d6d906000338-240-135_mvvGYHL.jpg"/>
-                                </a>
-                            </dt>
-                            <dd>
-                                <a target="_blank" href=""><h2> django实战项目</h2></a>
-                                <span class="fl">学习时长：<i class="key">0</i></span>
-                            </dd>
-                        </dl>
-
-
-
+                    <dl>
+                        <dt>
+                            <a target="_blank" href="">
+                                <img width="240" height="220" class="scrollLoading" src="{{ MEDIA_URL }}{{ course.image }}"/>
+                            </a>
+                        </dt>
+                        <dd>
+                            <a target="_blank" href=""><h2>{{ course.name }}</h2></a>
+                            <span class="fl">学习时长：<i class="key">{{ course.learn_times }}</i></span>
+                        </dd>
+                    </dl>
                 </div>
+                {% endfor %}
 			</div>
 		</div>
 	</div>

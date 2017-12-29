@@ -39,7 +39,14 @@ class CourseDeailView(View):
     def get(self, request, course_id):
         course = Course.objects.get(id=course_id)
 
+        tag = course.tag
+        if tag:
+            related_course = Course.objects.filter(tag=tag)[:1]
+        else:
+            related_course = []
+
         context = {
-            'course': course
+            'course': course,
+            'related_course': related_course
         }
         return render(request, 'courses/course-detail.html', context=context)

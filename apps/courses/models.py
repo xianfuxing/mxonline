@@ -14,6 +14,8 @@ class Course(models.Model):
     course_org = models.ForeignKey(CourseOrg, verbose_name='课程机构', blank=True, null=True)
     name = models.CharField(max_length=50, verbose_name='课程名称')
     desc = models.CharField(max_length=300, verbose_name='课程描述')
+    category = models.CharField(default='后端开发', max_length=20, verbose_name='课程类别')
+    tag = models.CharField(default="", max_length=10, verbose_name="课程标签")
     detail = models.TextField(verbose_name='课程详情')
     degree = models.CharField(choices=DEGREE_CHOICE, max_length=2, verbose_name='难度')
     learn_times = models.IntegerField(default=0, verbose_name='学习时长（分钟数）')
@@ -33,6 +35,12 @@ class Course(models.Model):
 
     def get_lession_nums(self):
         return self.lesson_set.all().count()
+
+    def get_learn_users(self):
+        return self.usercourse_set.all()[:5]
+
+    def get_teacher_nums(self):
+        return self.course_org.teacher_set.all().count()
 
 
 class Lesson(models.Model):
