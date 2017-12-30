@@ -36,8 +36,8 @@ def is_active_reverse(request, args, *urlnames):
 
 
 @register.simple_tag()
-def is_fav(request, org_id):
-    fav = UserFavorite.objects.filter(user=request.user, fav_id=org_id, fav_type=2)
+def is_fav(request, id, fav_type):
+    fav = UserFavorite.objects.filter(user=request.user, fav_id=id, fav_type=fav_type)
     if fav:
         return '已收藏'
     else:

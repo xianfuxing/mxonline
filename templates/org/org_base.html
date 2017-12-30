@@ -71,7 +71,7 @@
                     </div>
                     <div class="btn fr collectionbtn  notlogin
                          "data-favid="22" data-fav-type="1">
-                         {% is_fav request course_org.id %}
+                         {% is_fav request course_org.id 2 %}
                     </div>
 
                 </div>
@@ -131,7 +131,7 @@ function add_fav(current_elem, fav_id, fav_type){
     $.ajax({
         cache: false,
         type: "POST",
-        url:"/org/add-fav/",
+        url:"{% url 'org:add_fav' %}",
         data:{'fav_id':fav_id, 'fav_type':fav_type},
         async: true,
         beforeSend:function(xhr, settings){

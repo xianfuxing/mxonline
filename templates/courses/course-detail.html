@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load  staticfiles %}
+{% load common_tags %}
 {% block title %}公开课列表 - 慕学在线网{% endblock title %}
 
 
@@ -45,7 +46,7 @@
 						</ul>
 						<div class="btns">
 							<div class="btn colectgroupbtn"  id="jsLeftBtn">
-                                  收藏
+                                  {% is_fav request course.id 1 %}
                             </div>
                                 <div class="buy btn"><a style="color: white" href="course-video.html">开始学习</a></div>
 						</div>
@@ -81,7 +82,7 @@
                     </a>
 					<div class="btn  notlogin
 					     "data-favid="14" id="jsRightBtn">
-                         已收藏
+                         {% is_fav request course.course_org.id 2 %}
                     </div>
 					<div class="clear">
 						<ul>
@@ -154,16 +155,17 @@ function add_fav(current_elem, fav_id, fav_type){
     $.ajax({
         cache: false,
         type: "POST",
-        url:"/org/add_fav/",
+        url:"{% url 'org:add_fav' %}",
         data:{'fav_id':fav_id, 'fav_type':fav_type},
         async: true,
         beforeSend:function(xhr, settings){
-            xhr.setRequestHeader("X-CSRFToken", "5I2SlleZJOMUX9QbwYLUIAOshdrdpRcy");
+            xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
         },
         success: function(data) {
             if(data.status == 'fail'){
                 if(data.msg == '用户未登录'){
-                    window.location.href="login.html";
+                    alert('请登录后，再收藏');
+                    window.location.href="{% url 'login' %}";
                 }else{
                     alert(data.msg)
                 }
@@ -176,11 +178,11 @@ function add_fav(current_elem, fav_id, fav_type){
 }
 
 $('#jsLeftBtn').on('click', function(){
-    add_fav($(this), 10, 1);
+    add_fav($(this), {{ course.id }}, 1);
 });
 
 $('#jsRightBtn').on('click', function(){
-    add_fav($(this), 2, 2);
+    add_fav($(this), {{ course.course_org.id }}, 2);
 });
 
 
