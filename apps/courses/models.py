@@ -42,6 +42,9 @@ class Course(models.Model):
     def get_teacher_nums(self):
         return self.course_org.teacher_set.all().count()
 
+    def get_lessions(self):
+        return self.lesson_set.all()
+
 
 class Lesson(models.Model):
     course = models.ForeignKey(Course, verbose_name='课程')
@@ -59,6 +62,7 @@ class Lesson(models.Model):
 class Video(models.Model):
     lesson = models.ForeignKey(Lesson, verbose_name='章节')
     name = models.CharField(max_length=100, verbose_name='视频名')
+    url = models.CharField(default='', max_length=200, verbose_name='访问地址')
     add_time = models.DateTimeField(auto_now_add=True, verbose_name='添加时间')
 
     class Meta:

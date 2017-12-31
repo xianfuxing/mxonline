@@ -50,3 +50,14 @@ class CourseDeailView(View):
             'related_course': related_course
         }
         return render(request, 'courses/course-detail.html', context=context)
+
+
+class CourseLessionView(View):
+    def get(self, request, course_id):
+        course = Course.objects.get(id=course_id)
+
+        context = {
+            'course': course
+        }
+
+        return render(request, 'courses/course-video.html', context=context)

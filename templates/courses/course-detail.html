@@ -48,7 +48,7 @@
 							<div class="btn colectgroupbtn"  id="jsLeftBtn">
                                   {% is_fav request course.id 1 %}
                             </div>
-                                <div class="buy btn"><a style="color: white" href="course-video.html">开始学习</a></div>
+                                <div class="buy btn"><a style="color: white" href="{% url 'course:course_lession' course.id %}">开始学习</a></div>
 						</div>
 					</div>
                     <div class="group-share-box">
