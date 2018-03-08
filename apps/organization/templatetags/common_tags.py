@@ -10,6 +10,7 @@ from operation.models import UserFavorite
 
 register = template.Library()
 
+
 @register.simple_tag()
 def is_active(request, *url_strings):
     for urlpattern in url_strings:
